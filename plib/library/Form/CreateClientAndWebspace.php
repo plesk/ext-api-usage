@@ -25,6 +25,10 @@ class Modules_ApiUsage_Form_CreateClientAndWebspace extends pm_Form_Simple
         $values = $this->getValues();
         $domainName = $values['domain'];
 
+        if ($this->_isClientExist('client')) {
+            throw new pm_Exception('Client with login "client" is already exist.');
+        }
+
         $apiRequest = <<<APICALL
 <customer>
     <add>
@@ -72,5 +76,25 @@ APICALL;
     {
         $apiResponse = pm_ApiRpc::getService()->call('<ip><get/></ip>');
         return $apiResponse->ip->get->result->addresses->ip_info->ip_address;
+    }
+
+    private function _isClientExist($login)
+    {
+        $apiRequest = <<<APICALL
+<customer>
+    <get>
+        <filter>
+            <login>$login</login>
+        </filter>
+        <dataset>
+            <gen_info/>
+        </dataset>
+    </get>
+</customer>
+APICALL;
+
+        $apiResponse = pm_ApiRpc::getService()->call($apiRequest);
+        $result = $apiResponse->customer->get->result;
+        return $result->status && ('ok' == $result->status);
     }
 }

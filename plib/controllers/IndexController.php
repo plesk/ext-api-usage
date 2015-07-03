@@ -12,8 +12,13 @@ class IndexController extends pm_Controller_Action
         $form = new Modules_ApiUsage_Form_CreateClientAndWebspace();
 
         if ($this->getRequest()->isPost() && $form->isValid($this->getRequest()->getPost())) {
-            $form->process();
-            $this->_status->addMessage('info', $this->lmsg('objectsCreated'));
+            try {
+                $form->process();
+                $this->_helper->json(array('redirect' => pm_Context::getModulesListUrl()));
+            } catch (pm_Exception $exception) {
+                $this->_status->addMessage('error', $exception->getMessage());
+            }
+
             $this->_helper->json(array('redirect' => pm_Context::getModulesListUrl()));
         }
 
