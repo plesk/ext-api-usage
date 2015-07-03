@@ -5,6 +5,11 @@ class Modules_ApiUsage_Form_CreateClientAndWebspace extends pm_Form_Simple
 
     public function init()
     {
+        $this->addElement('simpleText', 'client', array(
+            'label' => $this->lmsg('fieldClient'),
+            'value' => 'Client',
+        ));
+
         $this->addElement('text', 'domain', array(
             'label' => $this->lmsg('fieldDomain'),
             'value' => 'client.tld',
