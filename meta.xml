@@ -4,6 +4,7 @@
   <id>api-usage</id>
   <name>API Usage Example</name>
   <description>Example of API-RPC usage.</description>
+  <url>https://github.com/plesk/ext-api-usage</url>
   <version>1.0</version>
   <release>1</release>
   <vendor>Odin</vendor>
